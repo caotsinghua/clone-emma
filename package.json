@@ -1,0 +1,32 @@
+{
+  "name": "emma-cli-learn",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -d",
+    "dev": "ts-node --files src/bin.tsx"
+  },
+  "bin": {
+    "emma": "dist/bin.js"
+  },
+  "dependencies": {
+    "algoliasearch": "^3.33.0",
+    "commander": "^2.20.0",
+    "ink": "^2.3.0",
+    "meow": "^5.0.0",
+    "multilines": "^1.0.2",
+    "opn": "5.5.0",
+    "react": "^16.8.6",
+    "typescript": "^3.5.3",
+    "update-notifier": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/algoliasearch": "^3.30.16",
+    "@types/meow": "^5.0.0",
+    "@types/node": "^12.6.8",
+    "@types/opn": "5.1.0",
+    "@types/update-notifier": "^2.5.0",
+    "ts-node": "^8.3.0"
+  }
+}

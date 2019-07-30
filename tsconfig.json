@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2015",
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "resolveJsonModule": true,
+        "sourceMap": true,
+        "lib": [
+            "dom",
+            "es2017",
+            "esnext.asynciterable"
+        ],
+        "rootDir": "src",
+        "outDir": "dist",
+        "experimentalDecorators": true,
+        "jsx": "react",
+        "esModuleInterop": true,
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "template",
+        "dist"
+    ]
+}
