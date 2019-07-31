@@ -74,9 +74,10 @@ const Package: React.FC<WithSearchContext<WithStdin<Props>>> = ({
       stdin.removeListener('data', handleInput);
     };
   }, []);
+
   useEffect(() => {
     if (active === false) setShowDetails(false);
-  });
+  }, [active]);
 
   const Cursor = () => (
     <Box marginRight={1}>
@@ -156,7 +157,7 @@ const Package: React.FC<WithSearchContext<WithStdin<Props>>> = ({
 const PackageWithStdinAndHits: React.FC<Props> = props => {
   return (
     <SearchContext.Consumer>
-      {hits => (
+      {({ hits }) => (
         <StdinContext.Consumer>
           {({ stdin, setRawMode }) => <Package {...props} stdin={stdin} setRawMode={setRawMode} hits={hits} />}
         </StdinContext.Consumer>

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import algoliasearch, { Response } from 'algoliasearch';
-import { State } from './reducer';
 
 const algoliaConfig = {
   appId: 'OFCNCOG2CU',
@@ -41,18 +40,8 @@ export const search = (query: string, page: number = 0): Promise<Response<IPacka
     hitsPerPage: 10
   });
 };
-enum VIEW {
-  SEARCH = 'SEARCH',
-  SCROLL = 'SCROLL',
-  OVERVIEW = 'OVERVIEW',
-  INSTALL = 'INSTALL'
-}
 
 // context
 export type WithSearchContext<X> = X & { hits: IPackage[] }; // 交叉类型
 
-export const SearchContext = React.createContext<WithSearchContext<State>>({
-  view: VIEW.SEARCH,
-  query: '',
-  hits: []
-});
+export const SearchContext = React.createContext<IPackage[]>([]);

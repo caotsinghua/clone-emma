@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { WithStdin } from '../utils';
 import { Box, Text, Color, StdinContext } from 'ink';
+import { SearchContext, WithSearchContext } from '../algolia';
 
 const ARROW_UP = '\u001B[A';
 const ARROW_DOWN = '\u001B[B';
@@ -14,21 +15,21 @@ const DELETE = '\x7F';
 
 interface Props {
   active: boolean;
-  value: string;
-  onChange: (q?: string) => void;
+  onChange: (q: string) => void;
   loading: boolean;
+  query?: string;
 }
 
-const Search: React.FC<WithStdin<Props>> = ({ stdin, setRawMode, active, value, onChange, loading }) => {
+const Search: React.FC<WithStdin<Props>> = ({ stdin, setRawMode, active, onChange, loading, query }) => {
   const handleInput = (data: string) => {
     const char = String(data);
     if ([ARROW_UP, ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ENTER, CTRL_C, SPACE].includes(char) || !active) {
       return;
     }
     if (char === BACKSPACE || char === DELETE) {
-      onChange();// delete
+      onChange(query.slice(0, query.length - 1)); // delete
     } else {
-      onChange(char);
+      onChange(`${query}${char}`);
     }
   };
   // mounted
@@ -42,7 +43,7 @@ const Search: React.FC<WithStdin<Props>> = ({ stdin, setRawMode, active, value, 
     };
   }, []);
 
-  const hasValue = value.length > 0;
+  const hasValue = query.length > 0;
   return (
     <Box flexDirection="row">
       <Box marginRight={1}>
@@ -51,16 +52,20 @@ const Search: React.FC<WithStdin<Props>> = ({ stdin, setRawMode, active, value, 
         </Text>
       </Box>
       <Box>
-        <Color dim={!hasValue}>{hasValue ? value : 'create-emma'}</Color>
+        <Color dim={!hasValue}>{hasValue ? query : 'create-emma'}</Color>
       </Box>
     </Box>
   );
 };
 
-export const SearchWithStdin: React.FC<Props> = (props: Props) => {
+export const SearchWithStdin: React.FC<Props> = props => {
   return (
-    <StdinContext.Consumer>
-      {({ stdin, setRawMode }) => <Search {...props} stdin={stdin} setRawMode={setRawMode} />}
-    </StdinContext.Consumer>
+    <SearchContext.Consumer>
+      {({ query }) => (
+        <StdinContext.Consumer>
+          {({ stdin, setRawMode }) => <Search {...props} query={query} stdin={stdin} setRawMode={setRawMode} />}
+        </StdinContext.Consumer>
+      )}
+    </SearchContext.Consumer>
   );
 };
